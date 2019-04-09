@@ -1,0 +1,1536 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This project is a Node.js api to create your own IMDB. Users are able to add movies, actors and reviews.",
+    "version": "1.0.0",
+    "title": "Private IMDB API"
+  },
+  "tags": [
+    {
+      "name": "authentification",
+      "description": "Everything about authentification"
+    },
+    {
+      "name": "movieProfessionals",
+      "description": "Operations about realtion between movies and professionals"
+    },
+    {
+      "name": "movies",
+      "description": "Operations about movies"
+    },
+    {
+      "name": "professionals",
+      "description": "Operations about professionals"
+    },
+    {
+      "name": "reviews",
+      "description": "Operations about reviews"
+    },
+    {
+      "name": "users",
+      "description": "Operations about users"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "authentification"
+        ],
+        "summary": "Login",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Email and password of the user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idToken": {
+                  "type": "string"
+                },
+                "expiresIn": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        }
+      }
+    },
+    "/movie-professionals/add-relation": {
+      "put": {
+        "tags": [
+          "movieProfessionals"
+        ],
+        "summary": "Add a relation between a movie and a professional",
+        "operationId": "addMovieProfessional",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "the movie id to insert, the professional id to insert, the role of the professional in the movie",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "movieId": {
+                  "type": "integer"
+                },
+                "professionalId": {
+                  "type": "integer"
+                },
+                "role": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/movie-professionals/{movieId}/{professionalId}": {
+      "delete": {
+        "tags": [
+          "movieProfessionals"
+        ],
+        "summary": "Delete a relation between a movie and a professional",
+        "operationId": "deleteMovieProfessional",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "Id of the movie in the relation",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "professionalId",
+            "in": "path",
+            "description": "Id of the professional in the relation",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/movies/create-movie": {
+      "put": {
+        "tags": [
+          "movies"
+        ],
+        "summary": "Create a movie",
+        "operationId": "createMovie",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "movie data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "movie": {
+                  "$ref": "#/definitions/movies"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "insertId": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/movies/update-movie": {
+      "put": {
+        "tags": [
+          "movies"
+        ],
+        "summary": "Update a movie",
+        "operationId": "updateMovie",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "movie data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "movie": {
+                  "$ref": "#/definitions/movies"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/movies/name/{name}": {
+      "get": {
+        "tags": [
+          "movies"
+        ],
+        "summary": "Find a movie by name",
+        "operationId": "getMovieByName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "description": "the name of the movie",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/movies"
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/movies/all/{orderBy}/{page}/{perPage}": {
+      "get": {
+        "tags": [
+          "movies"
+        ],
+        "summary": "Find all movies",
+        "description": "Find all movies order by the given field (default id) and by page (default page = 1, perPage = 20)",
+        "operationId": "getAllMoviesByPage",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderBy",
+            "description": "column name to order by",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "page",
+            "description": "the page number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "path",
+            "name": "perPage",
+            "description": "the number of movie per page",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/movies"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/movies/{id}": {
+      "delete": {
+        "tags": [
+          "movies"
+        ],
+        "summary": "Delete a movie by id",
+        "operationId": "deleteMovieById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the movie to delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "movies"
+        ],
+        "summary": "Find a movie by id",
+        "operationId": "getMovieById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the movie to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/movies"
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/movies/with-details/{id}": {
+      "get": {
+        "tags": [
+          "movies"
+        ],
+        "summary": "Find a movie by id with all associations",
+        "operationId": "getMovieByIdWithAssociations",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the movie to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "rate": {
+                  "type": "number"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "duration": {
+                  "type": "integer"
+                },
+                "genre": {
+                  "type": "string"
+                },
+                "synopsis": {
+                  "type": "string"
+                },
+                "imageUrl": {
+                  "type": "string"
+                },
+                "teaserUrl": {
+                  "type": "string"
+                },
+                "nationality": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "integer"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "user": {
+                  "$ref": "#/definitions/users"
+                },
+                "professionals": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/professionals"
+                  }
+                },
+                "reviews": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/reviews"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/professionals/create-professional": {
+      "put": {
+        "tags": [
+          "professionals"
+        ],
+        "summary": "Create a professional",
+        "operationId": "createProfessional",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "professional data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "professional": {
+                  "$ref": "#/definitions/professionals"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "insertId": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/professionals/update-professional": {
+      "put": {
+        "tags": [
+          "professionals"
+        ],
+        "summary": "Update a professional",
+        "operationId": "updateProfessional",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "professional data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "professional": {
+                  "$ref": "#/definitions/professionals"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/professionals/name/{name}": {
+      "get": {
+        "tags": [
+          "professionals"
+        ],
+        "summary": "Find a professional by name",
+        "operationId": "getProfessionalByName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "description": "the name of the professional (firstname + lastname)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/professionals"
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/professionals/{id}": {
+      "delete": {
+        "tags": [
+          "professionals"
+        ],
+        "summary": "Delete a professional by id",
+        "operationId": "deleteProfessionalById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the professional to delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "professionals"
+        ],
+        "summary": "Find a professional by id",
+        "operationId": "getProfessionalById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the professional to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/professionals"
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/professionals/with-details/{id}": {
+      "get": {
+        "tags": [
+          "professionals"
+        ],
+        "summary": "Find a professional by id with all associations",
+        "operationId": "getProfessionalByIdWithAssociations",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the professional to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "firstname": {
+                  "type": "string"
+                },
+                "lastname": {
+                  "type": "string"
+                },
+                "profilePicture": {
+                  "type": "string"
+                },
+                "birthDate": {
+                  "type": "string"
+                },
+                "nationality": {
+                  "type": "string"
+                },
+                "job": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "movies": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/movies"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/reviews/create-review": {
+      "put": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Create a review",
+        "operationId": "createReview",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "review data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "review": {
+                  "$ref": "#/definitions/reviews"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "insertId": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/reviews/update-review": {
+      "put": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Update a review, only the review author can do this",
+        "operationId": "updateReview",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "review data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "review": {
+                  "$ref": "#/definitions/reviews"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/reviews/{id}": {
+      "delete": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Delete a review by id, only the review author can do this",
+        "operationId": "deleteReviewById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the review to delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Find a review by id",
+        "operationId": "getReviewById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the review to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/reviews"
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/reviews/with-details/{id}": {
+      "get": {
+        "tags": [
+          "reviews"
+        ],
+        "summary": "Find a review by id with all associations",
+        "operationId": "getReviewByIdWithAssociations",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the review to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "rate": {
+                  "type": "number"
+                },
+                "review": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "integer"
+                },
+                "movieId": {
+                  "type": "integer"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "movie": {
+                  "$ref": "#/definitions/movies"
+                },
+                "user": {
+                  "$ref": "#/definitions/users"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/create-user": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a user",
+        "operationId": "createUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "user data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "$ref": "#/definitions/users"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "insertId": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/update-user": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update a user, only the user himself can do this",
+        "operationId": "updateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "user data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "firstname": {
+                      "type": "string"
+                    },
+                    "lastname": {
+                      "type": "string"
+                    },
+                    "profilePicture": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/update-password": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update a user password, only the user himself can do this",
+        "operationId": "updateUserPassword",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "user password",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Find a user by id",
+        "operationId": "getUserById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the user to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/users"
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/with-details/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Find a user by id with all associations",
+        "operationId": "getUserByIdWithAssociations",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "the id of the user to find",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "firstname": {
+                  "type": "string"
+                },
+                "lastname": {
+                  "type": "string"
+                },
+                "profilePicture": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "movies": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/movies"
+                  }
+                },
+                "reviews": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/users"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, you need a token access to execute this request"
+          },
+          "412": {
+            "description": "Invalid input, missing some parameters in path or body"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "movieProfessionals": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "movieId": {
+          "type": "integer"
+        },
+        "professionalId": {
+          "type": "integer"
+        },
+        "role": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "movies": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "number"
+        },
+        "date": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer"
+        },
+        "genre": {
+          "type": "string"
+        },
+        "synopsis": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "teaserUrl": {
+          "type": "string"
+        },
+        "nationality": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "professionals": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        },
+        "birthDate": {
+          "type": "string"
+        },
+        "nationality": {
+          "type": "string"
+        },
+        "job": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "reviews": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "rate": {
+          "type": "number"
+        },
+        "review": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "movieId": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "users": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

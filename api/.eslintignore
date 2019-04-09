@@ -1,0 +1,4 @@
+migrations/*
+seeders/*
+test/*
+node_modules/*

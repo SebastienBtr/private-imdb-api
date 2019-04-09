@@ -1,0 +1,45 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "eslint-check": "eslint ./ --ext js; exit 0",
+    "eslint-fix": "eslint ./ --ext js --fix; exit 0",
+    "rsa-keys": "./create-rsa-keys.sh",
+    "migration": "sequelize db:migrate",
+    "seeds": "sequelize db:seed:all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SebastienBtr/private-imdb"
+  },
+  "author": "Sébastien Bouttier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SebastienBtr/private-imdb/issues"
+  },
+  "homepage": "https://github.com/SebastienBtr/private-imdb#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.4.0",
+    "mysql2": "^1.6.5",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
+    "socket.io": "^2.2.0",
+    "swagger-ui-express": "^4.0.2",
+    "winston": "^2.*",
+    "winston-daily-rotate-file": "^3.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "nodemon": "^1.18.9"
+  }
+}

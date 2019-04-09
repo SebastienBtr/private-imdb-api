@@ -1,0 +1,6 @@
+.env
+node_modules
+RSA-keys/*.key
+RSA-keys/*.pub
+.DS_Store
+logs/*
